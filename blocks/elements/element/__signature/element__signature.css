@@ -1,0 +1,5 @@
+.element__signature {
+display: flex;
+align-items: center;
+position: relative;
+}
