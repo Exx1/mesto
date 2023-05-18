@@ -1,4 +1,14 @@
 .element__like {
   position: absolute;
   right: 21px;
+  cursor: pointer;
 }
+
+.element__like:hover {
+  opacity: 0.5;
+}
+
+.element__like_active {
+  fill: black;
+}
+

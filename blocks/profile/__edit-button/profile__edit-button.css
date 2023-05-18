@@ -7,4 +7,9 @@
   background-size: 10px 10px;
   background-position: center;
   border: 1px solid #FFFFFF;
+  cursor: pointer;
+}
+
+.profile__edit-button:hover {
+  opacity: 0.6;
 }

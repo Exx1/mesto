@@ -1,0 +1,7 @@
+.edit__label {
+  padding-bottom: 30px;
+}
+
+.edit__label:last-of-type {
+  padding-bottom: 55px;
+}

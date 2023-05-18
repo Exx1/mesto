@@ -1,0 +1,10 @@
+.edit__close {
+  position: absolute;
+  right: -9%;
+  top: -12%;
+  cursor: pointer;
+}
+
+.edit__close:hover {
+  opacity: 0.6;
+}

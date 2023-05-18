@@ -12,12 +12,26 @@
 <body class="page">
   <header class="header">
     <img class="header__logo" src="./images/Logo.svg" alt="Логотип">
-    <div class="header__line"></div>
   </header>
+  <section class="edit">
+    <div class="edit__overlay"></div>
+    <form class="edit__form" action="">
+      <img class="edit__close" src="./images/Close.svg" alt="">
+      <span class="edit__text">Редактировать профиль</span>
+      <label class="edit__label">
+        <input class="edit__input" value="Жак-Ив Кусто" type="text" name="name">
+      </label>
+      <label class="edit__label">
+        <input class="edit__input" value="Исследователь океана" type="text" name="status">
+      </label>
+      <button class="edit__button" type="submit">Сохранить</button>
+    </form>
+  </section>
   <section class="profile">
     <img class="profile__avatar" src="./images/Avatar.jpg" alt="Аватар">
     <div class="profile__info">
-      <div class="profile__name">Жак-Ив Кусто
+      <div class="profile__name">
+        <p class="profile__text">Жак-Ив Кусто</p>
         <button class="profile__edit-button"></button>
       </div>
       <p class="profile__status">Исследователь океана</p>

@@ -1,4 +1,6 @@
 .profile__name {
+  display: flex;
+  align-items: baseline;
   font-style: normal;
   font-weight: 500;
   font-size: 42px;
@@ -6,5 +8,5 @@
   color: white;
   margin: 0;
   padding-left: 30px;
-  padding-bottom: 16px;
+  padding-bottom: 10px;
 }

@@ -12,6 +12,16 @@
 @import url(../blocks/header/__logo/header__logo.css);
 @import url(../blocks/header/__line/header__line.css);
 
+/* edit-form */
+@import url(../blocks/edit/edit.css);
+@import url(../blocks/edit/__overlay/edit__overlay.css);
+@import url(../blocks/edit/__form/edit__form.css);
+@import url(../blocks/edit/__input/edit__input.css);
+@import url(../blocks/edit/__button/edit__button.css);
+@import url(../blocks/edit/__text/edit__text.css);
+@import url(../blocks/edit/__label/edit__label.css);
+@import url(../blocks/edit/__close/edit__close.css);
+
 /* profile */
 @import url(../blocks/profile/profile.css);
 @import url(../blocks/profile/__avatar/profile__avatar.css);
@@ -20,6 +30,7 @@
 @import url(../blocks/profile/__status/profile__status.css);
 @import url(../blocks/profile/__edit-button/profile__edit-button.css);
 @import url(../blocks/profile/__add-button/profile__add-button.css);
+@import url(../blocks/profile/__text/profile__text.css);
 
 /* elements */
 @import url(../blocks/elements/elements.css);

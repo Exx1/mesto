@@ -1,0 +1,13 @@
+.edit__input {
+  font-family: inherit;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 17px;
+  width: 358px;
+  height: 27px;
+  margin: 0;
+  border: 0;
+  border-bottom: 1px solid #00000033;
+}
+
