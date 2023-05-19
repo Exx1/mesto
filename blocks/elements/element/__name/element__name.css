@@ -6,4 +6,8 @@
   color: #000000;
   padding-left: 21px;
   margin: 0;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  max-width: 195px;
 }
