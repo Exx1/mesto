@@ -1,9 +1,12 @@
 .footer {
   display: flex;
   padding-bottom: 60px;
-  font-style: normal;
-  font-weight: 400;
-  font-size: 18px;
-  line-height: 22px;
   color: #545454;
+}
+
+@media screen and (max-width: 320px) {
+  .footer {
+    padding-left: 19px;
+    padding-bottom: 36px;
+  }
 }

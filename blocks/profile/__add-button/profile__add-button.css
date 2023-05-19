@@ -16,3 +16,11 @@
 .profile__add-button:hover {
   opacity: 0.6;
 }
+
+@media screen and (max-width: 320px) {
+  .profile__add-button {
+    position: inherit;
+    width: 100%;
+    background-size: 16px 16px;
+  }
+}

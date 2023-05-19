@@ -17,3 +17,14 @@
 .edit__button:hover {
   opacity: 0.6;
 }
+
+@media screen and (max-width: 320px) {
+  .edit__button {
+    max-width: 238px;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 17px;
+    text-align: center;
+  }
+}

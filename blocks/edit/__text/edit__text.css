@@ -9,3 +9,15 @@
   width: 358px;
   text-align: left;
 }
+
+@media screen and (max-width: 320px) {
+  .edit__text {
+    font-style: normal;
+    font-weight: 900;
+    font-size: 18px;
+    line-height: 22px;
+    max-width: 238px;
+    padding-bottom: 66px;
+    padding-top: 30px;
+  }
+}

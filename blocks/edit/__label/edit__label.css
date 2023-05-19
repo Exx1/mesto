@@ -5,3 +5,9 @@
 .edit__label:last-of-type {
   padding-bottom: 55px;
 }
+
+@media screen and (max-width: 320px) {
+  .edit__label:last-of-type {
+    padding-bottom: 44px;
+  }
+}

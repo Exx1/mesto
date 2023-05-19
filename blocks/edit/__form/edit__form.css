@@ -15,3 +15,9 @@
   border-radius: 10px;
   z-index: 3;
 }
+
+@media screen and (max-width: 320px) {
+  .edit__form {
+    max-width: 282px;
+  }
+}

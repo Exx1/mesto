@@ -41,3 +41,4 @@
 
 /* footer */
 @import url(../blocks/footer/footer.css);
+@import url(../blocks/footer/__text/footer__text.css);

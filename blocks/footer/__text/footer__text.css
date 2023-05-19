@@ -1,21 +1,16 @@
-.profile__status {
+.footer__text {
+  margin: 0;
   font-style: normal;
   font-weight: 400;
   font-size: 18px;
   line-height: 22px;
-  color: white;
-  margin: 0;
-  padding-left: 30px;
 }
 
 @media screen and (max-width: 320px) {
-  .profile__status {
+  .footer__text {
     font-style: normal;
     font-weight: 400;
     font-size: 14px;
     line-height: 17px;
-    text-align: center;
-    padding-bottom: 33px;
-    padding-left: 0;
   }
 }
