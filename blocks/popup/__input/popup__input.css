@@ -1,4 +1,4 @@
-.edit__input {
+.popup__input {
   font-family: inherit;
   font-style: normal;
   font-weight: 400;
@@ -9,14 +9,15 @@
   margin: 0;
   border: 0;
   border-bottom: 1px solid #00000033;
+  margin-bottom: 30px;
+}
+
+.popup__input:last-of-type {
+  margin-bottom: 50px;
 }
 
 @media screen and (max-width: 320px) {
-  .edit__input {
+  .popup__input {
     max-width: 238px;
-    font-style: normal;
-    font-weight: 400;
-    font-size: 14px;
-    line-height: 17px;
   }
 }

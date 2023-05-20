@@ -2,10 +2,14 @@
   display: flex;
   padding-bottom: 60px;
   color: #545454;
+  max-width: 880px;
+  width: 100%;
+  margin: auto;
 }
 
 @media screen and (max-width: 320px) {
   .footer {
+    box-sizing: border-box;
     padding-left: 19px;
     padding-bottom: 36px;
   }

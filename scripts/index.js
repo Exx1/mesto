@@ -1,11 +1,11 @@
 let editButton = document.querySelector(".profile__edit-button");
-let editForm = document.querySelector(".edit");
-let closeButton = document.querySelector(".edit__close");
+let editForm = document.querySelector(".popup");
+let closeButton = document.querySelector(".popup__close");
 let name = document.querySelector(".profile__text");
 let status = document.querySelector(".profile__status");
-let nameForm = document.querySelector("[name='name']");
-let statusForm = document.querySelector("[name='status']");
-let saveButton = document.querySelector(".edit__button");
+let nameForm = document.querySelector(".popup__input_type_name");
+let statusForm = document.querySelector(".popup__input_type_status");
+let saveButton = document.querySelector(".popup__button");
 
 
 
@@ -24,11 +24,11 @@ function fillFormOut(evt) {
 }
 
 function openEdit () {
-  editForm.classList.toggle('edit_active');
+  editForm.classList.toggle('popup_opened');
 }
 
 function closeEdit () {
-  editForm.classList.toggle('edit_active');
+  editForm.classList.toggle('popup_opened');
 }
 
 editButton.addEventListener('click', openEdit);
