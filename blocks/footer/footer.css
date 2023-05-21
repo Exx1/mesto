@@ -7,9 +7,15 @@
   margin: auto;
 }
 
-@media screen and (max-width: 320px) {
+@media screen and (max-width: 570px) {
   .footer {
     box-sizing: border-box;
+    padding: 0 20px 60px;
+  }
+}
+
+@media screen and (max-width: 320px) {
+  .footer {
     padding-left: 19px;
     padding-bottom: 36px;
   }

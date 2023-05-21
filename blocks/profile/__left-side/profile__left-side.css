@@ -1,11 +1,12 @@
 .profile__left-side {
   display: flex;
+  width: 70%;
 }
 
-@media screen and (max-width: 320px) {
+@media screen and (max-width: 570px) {
   .profile__left-side {
-    display: flex;
     flex-direction: column;
     align-items: center;
+    width: 100%;
   }
 }
