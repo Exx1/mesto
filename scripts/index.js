@@ -7,10 +7,10 @@ const buttonCloseAddCard = document.querySelector(".popup__close_add");
 const buttonCloseFullImage = document.querySelector(".popup__close_image");
 const nameProfile = document.querySelector(".profile__text");
 const statusProfile = document.querySelector(".profile__status");
-const nameFormEditProfile = document.querySelector(".popup__input_type_name");
-const statusFormEditProfile = document.querySelector(".popup__input_type_status");
-const titleFormAddCard = document.querySelector(".popup__input_type_title");
-const linkFormAddCard = document.querySelector(".popup__input_type_link");
+const inputNameFormEditProfile = document.querySelector(".popup__input_type_name");
+const inputStatusFormEditProfile = document.querySelector(".popup__input_type_status");
+const inputTitleFormAddCard = document.querySelector(".popup__input_type_title");
+const inputLinkFormAddCard = document.querySelector(".popup__input_type_link");
 const formEditProfile = document.querySelector(".popup__form_edit-profile");
 const formAddCard = document.querySelector(".popup__form_add-card");
 const buttonAddCard = document.querySelector('.profile__button-add-card');
@@ -30,14 +30,14 @@ function closePopup(popup) {
 }
 
 function fillFormEditProfile() {
-  nameFormEditProfile.value = nameProfile.innerText;
-  statusFormEditProfile.value = statusProfile.innerText;
+  inputNameFormEditProfile.value = nameProfile.innerText;
+  inputStatusFormEditProfile.value = statusProfile.innerText;
 }
 
 function outFormEditProfile(evt) {
   evt.preventDefault();
-  nameProfile.textContent = nameFormEditProfile.value;
-  statusProfile.textContent = statusFormEditProfile.value;
+  nameProfile.textContent = inputNameFormEditProfile.value;
+  statusProfile.textContent = inputStatusFormEditProfile.value;
   closePopup(popupEditProfile);
 }
 
@@ -49,7 +49,13 @@ function deleteCard(evt) {
   evt.target.closest('.element').remove();
 }
 
-function createCard(element) {
+function createCard(name, link, position) {
+  const element = elementTamplate.querySelector('.element').cloneNode(true);
+
+  element.querySelector('.element__image').src = link;
+  element.querySelector('.element__image').alt = name;
+  element.querySelector('.element__name').textContent = name;
+
   element.querySelector('.element__like').addEventListener('click', function (evt) {
     toggleLike(evt);
   });
@@ -65,9 +71,7 @@ function createCard(element) {
     openPopup(popupFull);
   });
 
-  buttonCloseFullImage.addEventListener('click', function () {
-    closePopup(popupFull);
-  })
+  renderCard(element, position);
 }
 
 function renderCard(element, position) {
@@ -75,27 +79,22 @@ function renderCard(element, position) {
 }
 
 initialCards.forEach(card => {
-  const element = elementTamplate.querySelector('.element').cloneNode(true);
-  element.querySelector('.element__image').src = card.link;
-  element.querySelector('.element__image').alt = card.name;
-  element.querySelector('.element__name').textContent = card.name;
+  const link = card.link;
+  const name = card.name;
+  const position = 'append';
 
-  createCard(element);
-
-  renderCard(element, 'append');
+  createCard(name, link, position);
 });
 
 
 function addCard(evt) {
   evt.preventDefault();
-  const element = elementTamplate.querySelector('.element').cloneNode(true);
-  element.querySelector('.element__image').src = linkFormAddCard.value;
-  element.querySelector('.element__image').alt = titleFormAddCard.value;
-  element.querySelector('.element__name').textContent = titleFormAddCard.value;
 
-  createCard(element);
+  const link = inputLinkFormAddCard.value;
+  const name = inputTitleFormAddCard.value;
+  const position = 'prepend';
 
-  renderCard(element, 'prepend');
+  createCard(name, link, position);
 
   closePopup(popupAddCard);
 
@@ -120,5 +119,9 @@ buttonAddCard.addEventListener('click', function() {
 buttonCloseAddCard.addEventListener('click', function() {
   closePopup(popupAddCard);
 });
+
+buttonCloseFullImage.addEventListener('click', function () {
+  closePopup(popupFull);
+})
 
 formAddCard.addEventListener('submit', addCard);
