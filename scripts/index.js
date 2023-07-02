@@ -49,7 +49,7 @@ function deleteCard(evt) {
   evt.target.closest('.element').remove();
 }
 
-function createCard(name, link, position) {
+function createCard(name, link) {
   const element = elementTamplate.querySelector('.element').cloneNode(true);
 
   element.querySelector('.element__image').src = link;
@@ -71,7 +71,8 @@ function createCard(name, link, position) {
     openPopup(popupFull);
   });
 
-  renderCard(element, position);
+  return element;
+
 }
 
 function renderCard(element, position) {
@@ -83,7 +84,7 @@ initialCards.forEach(card => {
   const name = card.name;
   const position = 'append';
 
-  createCard(name, link, position);
+  renderCard(createCard(name, link), position);
 });
 
 
@@ -94,7 +95,7 @@ function addCard(evt) {
   const name = inputTitleFormAddCard.value;
   const position = 'prepend';
 
-  createCard(name, link, position);
+  renderCard(createCard(name, link), position);
 
   closePopup(popupAddCard);
 
