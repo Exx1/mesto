@@ -9,11 +9,7 @@
   margin: 0;
   border: 0;
   border-bottom: 1px solid #00000033;
-  margin-bottom: 30px;
-}
-
-.popup__input:last-of-type {
-  margin-bottom: 56px;
+  margin-bottom: 5px;
 }
 
 .popup__input::placeholder {

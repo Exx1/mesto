@@ -47,9 +47,11 @@
     <div class="popup__container">
       <button class="popup__close popup__close_edit" type="button"></button>
       <h3 class="popup__text">Редактировать профиль</h3>
-      <form class="popup__form popup__form_edit-profile" name="popup__form">
-        <input class="popup__input popup__input_type_name" placeholder="Имя" value="" type="text" name="name">
-        <input class="popup__input popup__input_type_status" placeholder="Статус" value="" type="text" name="status">
+      <form class="popup__form popup__form_edit-profile" name="popup__form" novalidate>
+        <input id="name-input" class="popup__input popup__input_type_name" placeholder="Имя" value="" type="text" name="name" minlength="2" maxlength="40" required>
+        <span class="popup__input-error name-input-error"></span>
+        <input id="status-input" class="popup__input popup__input_type_status" placeholder="Статус" value="" type="text" name="status" minlength="2" maxlength="200" required>
+        <span class="popup__input-error status-input-error"></span>
         <button class="popup__button" type="submit">Сохранить</button>
       </form>
     </div>
@@ -58,10 +60,11 @@
     <div class="popup__container">
       <button class="popup__close popup__close_add" type="button"></button>
       <h3 class="popup__text">Новое место</h3>
-      <form class="popup__form popup__form_add-card" name="popup__form">
-        <input class="popup__input popup__input_type_title" required placeholder="Название" value="" type="text" name="title">
-        <input class="popup__input popup__input_type_link" required placeholder="Ссылка на картинку" value="" type="url"
-          name="link">
+      <form class="popup__form popup__form_add-card" name="popup__form" novalidate>
+        <input id="title-input" class="popup__input popup__input_type_title" required placeholder="Название" value="" type="text" name="title">
+        <span class="popup__input-error popup__input-error"></span>
+        <input id="link-input" class="popup__input title-input-error" required placeholder="Ссылка на картинку" value="" type="url" name="link">
+        <span class="popup__input-error link-input-error"></span>
         <button class="popup__button" type="submit">Создать</button>
       </form>
     </div>
