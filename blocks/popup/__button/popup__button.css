@@ -14,6 +14,7 @@
   border: 1px solid black;
   opacity: 0.2;
   margin-bottom: 30px;
+  pointer-events: none;
 }
 
 @media screen and (max-width: 550px) {

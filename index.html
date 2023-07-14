@@ -61,9 +61,9 @@
       <button class="popup__close popup__close_add" type="button"></button>
       <h3 class="popup__text">Новое место</h3>
       <form class="popup__form popup__form_add-card" name="popup__form" novalidate>
-        <input id="title-input" class="popup__input popup__input_type_title" required placeholder="Название" value="" type="text" name="title">
-        <span class="popup__input-error popup__input-error"></span>
-        <input id="link-input" class="popup__input title-input-error" required placeholder="Ссылка на картинку" value="" type="url" name="link">
+        <input id="title-input" class="popup__input popup__input_type_title" required placeholder="Название" value="" type="text" name="title" minlength="2" maxlength="30">
+        <span class="popup__input-error title-input-error"></span>
+        <input id="link-input" class="popup__input popup__input_type_link" required placeholder="Ссылка на картинку" value="" type="url" name="link">
         <span class="popup__input-error link-input-error"></span>
         <button class="popup__button" type="submit">Создать</button>
       </form>
@@ -78,6 +78,7 @@
   </div>
   <script src="./scripts/cards.js"></script>
   <script src="./scripts/index.js"></script>
+  <script src="./scripts/validate.js"></script>
 </body>
 
 </html>

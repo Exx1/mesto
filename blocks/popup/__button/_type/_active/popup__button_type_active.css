@@ -4,6 +4,7 @@
   color: white;
   cursor: pointer;
   opacity: 1;
+  pointer-events: all;
 }
 
 .popup__button_type_active:hover {
