@@ -1,3 +1,12 @@
+const validationConfig = {
+  formSelector: '.popup__form',
+  inputSelector: '.popup__input',
+  submitButtonSelector: '.popup__button',
+  activeButtonClass: 'popup__button_type_active',
+  inputErrorClass: 'popup__input_type_error',
+  errorClass: 'popup__input-error_active'
+}
+
 function showInputError(formElement, inputElement, errorMessage, inputErrorClass, errorClass) {
   const errorElement = formElement.querySelector(`.${inputElement.id}-error`);
   inputElement.classList.add(inputErrorClass);
@@ -32,12 +41,14 @@ const toggleButtonState = (inputList, buttonElement, activeButtonClass) => {
 
   if (hasInvalidInput(inputList)) {
     buttonElement.classList.remove(activeButtonClass);
+    buttonElement.disabled = true;
   } else {
     buttonElement.classList.add(activeButtonClass);
+    buttonElement.disabled = false;
   }
 };
 
-function setEventListeners (formElement, inputSelector, submitButtonSelector, activeButtonClass, inputErrorClass, errorClass) {
+function setEventListeners(formElement, inputSelector, submitButtonSelector, activeButtonClass, inputErrorClass, errorClass) {
   const inputList = Array.from(formElement.querySelectorAll(inputSelector));
   const buttonElement = formElement.querySelector(submitButtonSelector);
 
@@ -51,19 +62,11 @@ function setEventListeners (formElement, inputSelector, submitButtonSelector, ac
   });
 };
 
-
-function enableValidation(obj) {
-  const formList = Array.from(document.querySelectorAll(obj.formSelector));
+function enableValidation(validationConfig) {
+  const formList = Array.from(document.querySelectorAll(validationConfig.formSelector));
   formList.forEach((formElement) => {
-    setEventListeners(formElement, obj.inputSelector, obj.submitButtonSelector, obj.activeButtonClass, obj.inputErrorClass, obj.errorClass);
+    setEventListeners(formElement, validationConfig.inputSelector, validationConfig.submitButtonSelector, validationConfig.activeButtonClass, validationConfig.inputErrorClass, validationConfig.errorClass);
   });
 };
 
-enableValidation({
-  formSelector: '.popup__form',
-  inputSelector: '.popup__input',
-  submitButtonSelector: '.popup__button',
-  activeButtonClass: 'popup__button_type_active',
-  inputErrorClass: 'popup__input_type_error',
-  errorClass: 'popup__input-error_active'
-});
+enableValidation(validationConfig);
