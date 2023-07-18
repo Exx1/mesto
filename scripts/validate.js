@@ -69,4 +69,10 @@ function enableValidation(validationConfig) {
   });
 };
 
+function disableSubmitButton(popup) {
+  const popupButton = popup.querySelector('.popup__button');
+  popupButton.disabled = false;
+  popupButton.classList.add("popup__button_type_active");
+}
+
 enableValidation(validationConfig);

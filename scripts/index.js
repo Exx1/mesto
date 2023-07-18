@@ -109,15 +109,9 @@ function addCard(evt) {
   popupButton.classList.remove("popup__button_type_active");
 }
 
-function popupButtonActive(popup) {
-  const popupButton = popup.querySelector('.popup__button');
-  popupButton.disabled = false;
-  popupButton.classList.add("popup__button_type_active");
-}
-
 buttonEditProfile.addEventListener('click', function () {
   fillFormEditProfile();
-  popupButtonActive(popupEditProfile);
+  disableSubmitButton(popupEditProfile);
   openPopup(popupEditProfile);
 });
 
@@ -141,12 +135,12 @@ buttonCloseFullImage.addEventListener('click', function () {
 formAddCard.addEventListener('submit', addCard);
 
 function setEventListenersClosePopup(popup) {
-  popup.addEventListener("click", function (evt) {
+  popup.addEventListener("click", function closePopupClickOverlay(evt) {
     if (evt.target === popup) {
       closePopup(popup);
     }
   })
-  document.addEventListener("keydown", function (evt) {
+  document.addEventListener("keydown", function closePopupKeydownEsc(evt) {
     if (evt.key === 'Escape') {
       closePopup(popup);
     }
@@ -154,12 +148,12 @@ function setEventListenersClosePopup(popup) {
 };
 
 function setRemoveEventListenersClosePopup(popup) {
-  popup.removeEventListener("click", function (evt) {
+  popup.removeEventListener("click", function closePopupClickOverlay(evt) {
     if (evt.target === popup) {
       closePopup(popup);
     }
   })
-  document.removeEventListener("keydown", function (evt) {
+  document.removeEventListener("keydown", function closePopupKeydownEsc(evt) {
     if (evt.key === 'Escape') {
       closePopup(popup);
     }
