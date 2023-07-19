@@ -69,10 +69,16 @@ function enableValidation(validationConfig) {
   });
 };
 
-function disableSubmitButton(popup) {
+function enableSubmitButton(popup) {
   const popupButton = popup.querySelector('.popup__button');
   popupButton.disabled = false;
   popupButton.classList.add("popup__button_type_active");
+}
+
+function disableSubmitButton(popup) {
+  const popupButton = popup.querySelector('.popup__button');
+  popupButton.disabled = true;
+  popupButton.classList.remove("popup__button_type_active");
 }
 
 enableValidation(validationConfig);

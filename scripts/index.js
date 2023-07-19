@@ -23,12 +23,14 @@ const elements = document.querySelector('.elements');
 
 function openPopup(popup) {
   popup.classList.add('popup_opened');
-  setEventListenersClosePopup(popup);
+  popup.addEventListener('click', closePopupClickOverlay);
+  document.addEventListener('keydown', closePopupKeydownEsc);
 }
 
 function closePopup(popup) {
+  popup.removeEventListener('click', closePopupClickOverlay);
+  document.removeEventListener('keydown', closePopupKeydownEsc);
   popup.classList.remove('popup_opened');
-  setRemoveEventListenersClosePopup(popup);
 }
 
 function fillFormEditProfile() {
@@ -105,13 +107,12 @@ function addCard(evt) {
 
   popupFormAddCard.reset();
 
-  popupButton.disabled = true;
-  popupButton.classList.remove("popup__button_type_active");
+  disableSubmitButton(popupAddCard);
 }
 
 buttonEditProfile.addEventListener('click', function () {
   fillFormEditProfile();
-  disableSubmitButton(popupEditProfile);
+  enableSubmitButton(popupEditProfile);
   openPopup(popupEditProfile);
 });
 
@@ -134,29 +135,18 @@ buttonCloseFullImage.addEventListener('click', function () {
 
 formAddCard.addEventListener('submit', addCard);
 
-function setEventListenersClosePopup(popup) {
-  popup.addEventListener("click", function closePopupClickOverlay(evt) {
-    if (evt.target === popup) {
-      closePopup(popup);
-    }
-  })
-  document.addEventListener("keydown", function closePopupKeydownEsc(evt) {
-    if (evt.key === 'Escape') {
-      closePopup(popup);
-    }
-  })
-};
+function closePopupClickOverlay(evt) {
+  const popup = document.querySelector('.popup_opened');
+  if (evt.target === popup) {
+    closePopup(popup);
+  }
+}
 
-function setRemoveEventListenersClosePopup(popup) {
-  popup.removeEventListener("click", function closePopupClickOverlay(evt) {
-    if (evt.target === popup) {
-      closePopup(popup);
-    }
-  })
-  document.removeEventListener("keydown", function closePopupKeydownEsc(evt) {
-    if (evt.key === 'Escape') {
-      closePopup(popup);
-    }
-  })
-};
+function closePopupKeydownEsc(evt) {
+  if (evt.key === 'Escape') {
+    closePopup(document.querySelector('.popup_opened'));
+  }
+}
+
+
 
