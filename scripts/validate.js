@@ -69,7 +69,7 @@ function enableValidation(validationConfig) {
   });
 };
 
-function enableSubmitButton(popup) {
+export function enableSubmitButton(popup) {
   const popupButton = popup.querySelector('.popup__button');
   popupButton.disabled = false;
   popupButton.classList.add("popup__button_type_active");
