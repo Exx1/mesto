@@ -1,10 +1,20 @@
 import { initialCards } from "./cards.js";
 import { Card } from "./Card.js";
+import { FormValidator } from "./FormValidator.js";
+import { AddCardFormValidator } from "./FormValidator.js";
+
+const validationConfig = {
+  formSelector: '.popup__form',
+  inputSelector: '.popup__input',
+  submitButtonSelector: '.popup__button',
+  activeButtonClass: 'popup__button_type_active',
+  inputErrorClass: 'popup__input_type_error',
+  errorClass: 'popup__input-error_active'
+}
 
 const buttonEditProfile = document.querySelector(".profile__edit-button");
 const popupEditProfile = document.querySelector(".popup-edit-profile");
 const popupAddCard = document.querySelector(".popup-add-card");
-const popupFormAddCard = document.querySelector(".popup__form_add-card");
 const buttonCloseEditProfile = document.querySelector(".popup__close_edit");
 const buttonCloseAddCard = document.querySelector(".popup__close_add");
 const buttonCloseFullImage = document.querySelector(".popup__close_image");
@@ -87,14 +97,12 @@ function addCard(evt) {
 
   closePopup(popupAddCard);
 
-  popupFormAddCard.reset();
+  formAddCard.reset();
 
-  disableSubmitButton(popupAddCard);
 }
 
 buttonEditProfile.addEventListener('click', function () {
   fillFormEditProfile();
-  enableSubmitButton(popupEditProfile);
   openPopup(popupEditProfile);
 });
 
@@ -130,8 +138,6 @@ function closePopupKeydownEsc(evt) {
   }
 }
 
-function enableSubmitButton(popup) {
-  const popupButton = popup.querySelector('.popup__button');
-  popupButton.disabled = false;
-  popupButton.classList.add("popup__button_type_active");
-}
+new FormValidator(validationConfig, formAddCard).enableValidation();
+
+new AddCardFormValidator(validationConfig, formEditProfile).enableValidation();
