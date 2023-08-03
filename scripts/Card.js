@@ -39,7 +39,7 @@ export class Card {
     })
 
     this._element.querySelector('.element__image').addEventListener('click', () => {
-      this.openPopupFullWidth();
+      this._openPopupEnlargeImage();
     })
   }
 
@@ -55,11 +55,10 @@ export class Card {
     generatePopupEnlargeImage(this._name, this._link);
   }
 
-  openPopupFullWidth() {
+  _openPopupEnlargeImage() {
     this._generatePopupEnlargeImage()
     openPopup(popupFull);
   }
-
 }
 
 

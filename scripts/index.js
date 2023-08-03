@@ -1,6 +1,5 @@
 import { initialCards } from "./cards.js";
 import { Card } from "./Card.js";
-import { enableSubmitButton } from "./validate.js";
 
 const buttonEditProfile = document.querySelector(".profile__edit-button");
 const popupEditProfile = document.querySelector(".popup-edit-profile");
@@ -22,6 +21,8 @@ export const popupFull = document.querySelector('.popup-image');
 const popupFullImage = document.querySelector('.popup__image');
 const popupFullImageText = document.querySelector('.popup__text_image')
 const elements = document.querySelector('.elements');
+
+
 
 export function openPopup(popup) {
   popup.classList.add('popup_opened');
@@ -81,7 +82,6 @@ function addCard(evt) {
   }
 
   const position = 'prepend';
-  const popupButton = popupFormAddCard.querySelector('.popup__button');
 
   renderCard(generateCard(data), position);
 
@@ -130,5 +130,8 @@ function closePopupKeydownEsc(evt) {
   }
 }
 
-
-
+function enableSubmitButton(popup) {
+  const popupButton = popup.querySelector('.popup__button');
+  popupButton.disabled = false;
+  popupButton.classList.add("popup__button_type_active");
+}
