@@ -1,12 +1,9 @@
-import { openPopup } from "./index.js";
-import { generatePopupEnlargeImage } from "./index.js";
-import { popupFull } from "./index.js";
-
 export class Card {
-  constructor(data, template) {
+  constructor(data, template, handleCardClick) {
     this._name = data.name;
     this._link = data.link;
     this.template = template;
+    this._handleCardClick = handleCardClick;
   }
 
   _getTamplate() {
@@ -42,7 +39,7 @@ export class Card {
     })
 
     this._cardImage.addEventListener('click', () => {
-      this._openPopupEnlargeImage();
+      this._handleCardClick(this._name, this._link);
     })
   }
 
@@ -52,15 +49,6 @@ export class Card {
 
   _deleteCard() {
     this._element.closest('.element').remove();
-  }
-
-  _generatePopupEnlargeImage() {
-    generatePopupEnlargeImage(this._name, this._link);
-  }
-
-  _openPopupEnlargeImage() {
-    this._generatePopupEnlargeImage()
-    openPopup(popupFull);
   }
 }
 

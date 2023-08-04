@@ -62,20 +62,12 @@ export class FormValidator {
       this._buttonElement.disabled = false;
     }
   };
-}
 
-export class AddCardFormValidator extends FormValidator {
-  constructor(validationConfig, formElement) {
-    super(validationConfig, formElement);
-  }
+  resetValidation() {
+    this._toggleButtonState();
 
-  _enableButtonState() {
-    this._buttonElement.classList.add(this._activeButtonClass);
-    this._buttonElement.disabled = false;
-  }
-
-  enableValidation() {
-    super._setEventListeners();
-    this._enableButtonState();
+    this._inputList.forEach((inputElement) => {
+      this._hideInputError(inputElement);
+    });
   }
 }
