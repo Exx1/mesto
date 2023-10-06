@@ -1,6 +1,7 @@
 import { initialCards } from "./cards.js";
 import { Card } from "./Card.js";
 import { FormValidator } from "./FormValidator.js";
+import Section from "./Section.js";
 
 const validationConfig = {
   formSelector: '.popup__form',
@@ -68,11 +69,25 @@ function renderCard(element, position) {
   position === 'append' ? elements.append(element) : elements.prepend(element);
 }
 
+const cardList = new Section({initialCards, renderer: (item) => {
+  const card = new Card(item, '#elements_template', handleCardClick);
+  const cardElement = card.generateCard();
+
+  card.addItem(cardElement);
+}}, elements);
+
+cardList.renderer();
+
+
+
+
 initialCards.forEach((item) => {
   const position = 'append';
 
   renderCard(generateCard(item), position);
 });
+
+
 
 
 function addCard(evt) {
