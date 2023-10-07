@@ -6,10 +6,8 @@ export default class Section {
   }
 
   renderer() {
-    this.clear();
     this._items.forEach(item => {
       this._renderer(item);
-
     })
   }
 

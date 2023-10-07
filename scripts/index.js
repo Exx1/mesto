@@ -30,7 +30,7 @@ const buttonAddCard = document.querySelector('.profile__button-add-card');
 const popupFull = document.querySelector('.popup-image');
 const popupFullImage = document.querySelector('.popup__image');
 const popupFullImageText = document.querySelector('.popup__text_image')
-const elements = document.querySelector('.elements');
+const elements = '.elements';
 
 
 
@@ -58,35 +58,16 @@ function submitEditProfileForm(evt) {
   closePopup(popupEditProfile);
 }
 
-function generateCard(item) {
+
+
+const cardList = new Section({items: initialCards, renderer: (item) => {
   const card = new Card(item, '#elements_template', handleCardClick);
   const cardElement = card.generateCard();
 
-  return cardElement;
-}
-
-function renderCard(element, position) {
-  position === 'append' ? elements.append(element) : elements.prepend(element);
-}
-
-const cardList = new Section({initialCards, renderer: (item) => {
-  const card = new Card(item, '#elements_template', handleCardClick);
-  const cardElement = card.generateCard();
-
-  card.addItem(cardElement);
+  cardList.addItem(cardElement);
 }}, elements);
 
 cardList.renderer();
-
-
-
-
-initialCards.forEach((item) => {
-  const position = 'append';
-
-  renderCard(generateCard(item), position);
-});
-
 
 
 
