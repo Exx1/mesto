@@ -14,7 +14,8 @@ export default class PopupWithForm extends Popup {
     this._inputList.forEach(input => {
       this._formValues[input.name] = input.value;
     });
-    return this._formValues;
+    this._formValuesArr = [this._formValues];
+    return this._formValuesArr;
   }
 
   setEventListeners() {
@@ -23,6 +24,10 @@ export default class PopupWithForm extends Popup {
 
       this._submitForm(this._getInputValues());
     });
+
+    document.addEventListener('keydown', this._handleEscClose.bind(this));
+    this._popup.addEventListener('click', this._clickOverlayClose.bind(this));
+    document.querySelector(".popup__close_image").addEventListener('click', this._clickButtonClose.bind(this));
   }
 
   close() {
