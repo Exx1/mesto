@@ -6,24 +6,18 @@ import PopupWithImage from "../scripts/PopupWithImage.js";
 import PopupWithForm from "../scripts/PopupWithForm.js";
 import UserInfo from "../scripts/UserInfo.js";
 import '../pages/index.css';
-import Popup from "../scripts/Popup.js";
+import { validationConfig } from "../utils/Constants.js";
 
-const validationConfig = {
-  formSelector: '.popup__form',
-  inputSelector: '.popup__input',
-  submitButtonSelector: '.popup__button',
-  activeButtonClass: 'popup__button_type_active',
-  inputErrorClass: 'popup__input_type_error',
-  errorClass: 'popup__input-error_active'
-}
 
 const buttonEditProfile = document.querySelector(".profile__edit-button");
 const popupEditProfileselector = ".popup-edit-profile";
 const popupAddCardSelector = ".popup-add-card";
 const nameProfile = ".profile__text";
 const statusProfile = ".profile__status";
-const inputNameFormEditProfile = document.querySelector(".popup__input_type_name");
-const inputStatusFormEditProfile = document.querySelector(".popup__input_type_status");
+const inputsFormEditProfile = {
+  userName: document.querySelector(".popup__input_type_name"),
+  userStatus: document.querySelector(".popup__input_type_status")
+}
 const formEditProfileSelector = document.querySelector(".popup__form_edit-profile");
 const buttonAddCard = document.querySelector('.profile__button-add-card');
 const formAddCardSelector = document.querySelector(".popup__form_add-card");
@@ -40,18 +34,17 @@ popupEditProfile.setEventListeners();
 const formEditProfile = new UserInfo(nameProfile, statusProfile);
 
 
-function submitFormEditProfile()  {
-  formEditProfile.setUserInfo(inputNameFormEditProfile, inputStatusFormEditProfile);
+function submitFormEditProfile(data) {
+  formEditProfile.setUserInfo(data);
   popupEditProfile.close();
 }
 
 
 buttonEditProfile.addEventListener('click', function () {
   const userInfo = formEditProfile.getUserInfo();
-  inputNameFormEditProfile.value = userInfo.userName;
-  inputStatusFormEditProfile.value = userInfo.userStatus;
+  inputsFormEditProfile.userName.value = userInfo.userName;
+  inputsFormEditProfile.userStatus.value = userInfo.userStatus;
   popupEditProfile.open();
-  document.addEventListener('keydown', popupEditProfile.handleEscClose);
 });
 
 
@@ -89,12 +82,10 @@ function addCard(data) {
 
 buttonAddCard.addEventListener('click', function () {
   formAddCard.open();
-  document.addEventListener('keydown', formAddCard.handleEscClose);
 });
 
 
 function handleCardClick(name, link) {
-  document.addEventListener('keydown', popupFull.handleEscClose);
   popupFull.open(name, link);
 }
 

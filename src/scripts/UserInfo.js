@@ -2,6 +2,7 @@ export default class UserInfo {
   constructor(nameForm, statusForm) {
     this._name = document.querySelector(nameForm);
     this._status = document.querySelector(statusForm);
+
   }
 
   getUserInfo() {
@@ -11,8 +12,8 @@ export default class UserInfo {
     }
   }
 
-  setUserInfo( userName, userDescription) {
-    this._name.textContent = userName.value;
-    this._status.textContent = userDescription.value;
+  setUserInfo(data) {
+    this._name.textContent = data.name;
+    this._status.textContent = data.status;
   }
 }
