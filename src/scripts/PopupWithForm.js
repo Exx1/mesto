@@ -28,6 +28,5 @@ export default class PopupWithForm extends Popup {
   close() {
     super.close()
     this._formAddCard.reset();
-    this._popup.classList.remove('popup_opened');
   }
 }
