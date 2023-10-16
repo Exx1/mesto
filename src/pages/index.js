@@ -7,6 +7,7 @@ import PopupWithForm from "../components/PopupWithForm.js";
 import UserInfo from "../components/UserInfo.js";
 import '../pages/index.css';
 import { validationConfig } from "../utils/Constants.js";
+import Api from "../components/Api.js";
 
 
 const buttonEditProfile = document.querySelector(".profile__edit-button");
@@ -56,6 +57,19 @@ function newCard(item, elementsTamplate, handleCardClick) {
 }
 
 
+const api = new Api({
+  baseUrl: 'https://mesto.nomoreparties.co/v1/cohort-77/cards',
+  headers: {
+    authorization: '4f7a38de-897b-4509-9e7c-9545688bcefc',
+    'Content-Type': 'application/json'
+  }
+})
+
+
+const initialCards2 = api.getInitialCards();
+console.log(initialCards2);
+
+
 const cardList = new Section({items: initialCards, renderer: (item) => {
   const card = newCard(item, elementsTamplate, handleCardClick);
   const cardElement = card.generateCard();
@@ -95,3 +109,8 @@ cardFormValidator.enableValidation();
 
 const profileFormValidator = new FormValidator(validationConfig, formEditProfileSelector);
 profileFormValidator.enableValidation();
+
+
+
+
+
