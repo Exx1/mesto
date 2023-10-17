@@ -51,7 +51,7 @@ export default class Api {
           return res.json();
         }
 
-        return Promise.reject(`Ошибка: ${res.status}`);
+        return Promise.reject(`Ошибкаа: ${res.status}`);
       })
       .then((res) => {
         const cardList = new Section({items: res, renderer: (item) => {
