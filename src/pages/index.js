@@ -1,13 +1,14 @@
-import { initialCards } from "../utils/cards.js";
+import Section from "../components/Section.js";
 import { Card } from "../components/Card.js";
 import { FormValidator } from "../components/FormValidator.js";
-import Section from "../components/Section.js";
 import PopupWithImage from "../components/PopupWithImage.js";
 import PopupWithForm from "../components/PopupWithForm.js";
 import UserInfo from "../components/UserInfo.js";
 import '../pages/index.css';
 import { validationConfig } from "../utils/Constants.js";
 import Api from "../components/Api.js";
+import { elements } from "../components/Api.js";
+import { elementsTamplate } from "../components/Api.js";
 
 
 const buttonEditProfile = document.querySelector(".profile__edit-button");
@@ -23,7 +24,6 @@ const formEditProfileSelector = document.querySelector(".popup__form_edit-profil
 const buttonAddCard = document.querySelector('.profile__button-add-card');
 const formAddCardSelector = document.querySelector(".popup__form_add-card");
 const popupFullSelector = '.popup-image';
-const elements = '.elements';
 
 
 const popupFull = new PopupWithImage(popupFullSelector);
@@ -37,6 +37,7 @@ const formEditProfile = new UserInfo(nameProfile, statusProfile);
 
 function submitFormEditProfile(data) {
   formEditProfile.setUserInfo(data);
+  api.setUserInfo(inputsFormEditProfile.userName.value, inputsFormEditProfile.userStatus.value);
   popupEditProfile.close();
 }
 
@@ -48,46 +49,38 @@ buttonEditProfile.addEventListener('click', function () {
   popupEditProfile.open();
 });
 
-
-const elementsTamplate = '#elements_template';
-
-function newCard(item, elementsTamplate, handleCardClick) {
+export function newCard(item, elementsTamplate, handleCardClick) {
   const card = new Card(item, elementsTamplate, handleCardClick);
   return card;
 }
 
 
 const api = new Api({
-  baseUrl: 'https://mesto.nomoreparties.co/v1/cohort-77/cards',
+  baseUrl: 'https://mesto.nomoreparties.co/v1/cohort-77/',
   headers: {
     authorization: '4f7a38de-897b-4509-9e7c-9545688bcefc',
     'Content-Type': 'application/json'
   }
 })
 
-
-const initialCards2 = api.getInitialCards();
-console.log(initialCards2);
-
-
-const cardList = new Section({items: initialCards, renderer: (item) => {
-  const card = newCard(item, elementsTamplate, handleCardClick);
-  const cardElement = card.generateCard();
-
-  cardList.addItem(cardElement);
-}}, elements);
-
-cardList.renderer();
+api.getInitialCards();
+api.getUserInfo();
 
 
 
 function addCard(data) {
-    data.name = data.title;
-    const card = newCard(data, elementsTamplate, handleCardClick);
+
+  data.name = data.title;
+  api.setNewCard(data);
+  const cardList = new Section({items: data, renderer: (item) => {
+    const card = newCard(item, elementsTamplate, handleCardClick);
     const cardElement = card.generateCard();
 
     cardList.addItemPrepend(cardElement);
+  }
+}, elements);
 
+cardList.renderer();
 
   formAddCard.close();
 
@@ -99,7 +92,7 @@ buttonAddCard.addEventListener('click', function () {
 });
 
 
-function handleCardClick(name, link) {
+export function handleCardClick(name, link) {
   popupFull.open(name, link);
 }
 
