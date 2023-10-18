@@ -24,6 +24,7 @@ const formEditProfileSelector = document.querySelector(".popup__form_edit-profil
 const buttonAddCard = document.querySelector('.profile__button-add-card');
 const formAddCardSelector = document.querySelector(".popup__form_add-card");
 const popupFullSelector = '.popup-image';
+const popupDeleteCardSelector = document.querySelector('.popup-delete-card');
 
 
 const popupFull = new PopupWithImage(popupFullSelector);
@@ -33,6 +34,7 @@ formAddCard.setEventListeners();
 const popupEditProfile = new PopupWithForm (popupEditProfileselector, submitFormEditProfile);
 popupEditProfile.setEventListeners();
 const formEditProfile = new UserInfo(nameProfile, statusProfile);
+const popupDeleteCard = new Popup(popupDeleteCardSelector);
 
 
 function submitFormEditProfile(data) {
@@ -69,9 +71,8 @@ api.getUserInfo();
 
 
 function addCard(data) {
-
   data.name = data.title;
-  api.setNewCard(data);
+  data.likes = [];
   const cardList = new Section({items: data, renderer: (item) => {
     const card = newCard(item, elementsTamplate, handleCardClick);
     const cardElement = card.generateCard();
@@ -80,6 +81,7 @@ function addCard(data) {
   }
 }, elements);
 
+api.setNewCard(data);
 cardList.renderer();
 
   formAddCard.close();
