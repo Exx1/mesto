@@ -54,11 +54,19 @@ export default class Api {
         return Promise.reject(`Ошибкаа: ${res.status}`);
       })
       .then((res) => {
-        const cardList = new Section({items: res, renderer: (item) => {
+        const cardList = new Section({
+          items: res, renderer: (item) => {
             const card = newCard(item, elementsTamplate, handleCardClick);
             const cardElement = card.generateCard();
             if (item.owner._id !== "8e020bb07b9fb09a45ecdc6f") {
               cardElement.querySelector('.element__trash').style.display = "none";
+            }
+            if(item.likes.length > 0) {
+              item.likes.forEach(item => {
+                if (item._id === "8e020bb07b9fb09a45ecdc6f") {
+                  cardElement.querySelector('.element__like').classList.add('element__like_active');
+                }
+              });
             }
             cardElement.id = item._id;
             cardList.addItem(cardElement);
@@ -116,6 +124,20 @@ export default class Api {
         return Promise.reject(`Ошибка: ${res.status}`);
       })
 
+      .then ((res) => {
+        const cardList = new Section({
+          items: res, renderer: (item) => {
+            const card = newCard(item, elementsTamplate, handleCardClick);
+            const cardElement = card.generateCard();
+
+            cardElement.id = item._id;
+            cardList.addItemPrepend(cardElement);
+          }
+        }, elements);
+
+        cardList.renderer();
+      })
+
       .catch((err) => {
         console.log(err);
       });
@@ -128,18 +150,69 @@ export default class Api {
         authorization: this._token,
         'Content-Type': this._contentType
       }
-  })
+    })
 
-  .then(res => {
-    if (res.ok) {
-      return res.json();
-    }
+      .then(res => {
+        if (res.ok) {
+          return res.json();
+        }
 
-    return Promise.reject(`Ошибка: ${res.status}`);
-  })
+        return Promise.reject(`Ошибка: ${res.status}`);
+      })
 
-  .catch((err) => {
-    console.log(err);
-  });
-}
+      .catch((err) => {
+        console.log(err);
+      });
+  }
+
+  addLikeCard(element) {
+    return fetch(`${this._baseUrl}cards/${element.id}/likes`, {
+      method: 'PUT',
+      headers: {
+        authorization: this._token,
+        'Content-Type': this._contentType
+      }
+    })
+
+      .then(res => {
+        if (res.ok) {
+          return res.json();
+        }
+
+        return Promise.reject(`Ошибка: ${res.status}`);
+      })
+      .then((res) => {
+        element.querySelector('.element__like-counter').textContent = res.likes.length;
+      })
+
+      .catch((err) => {
+        console.log(err);
+      });
+  }
+
+  deleteLikeCard(element) {
+    return fetch(`${this._baseUrl}cards/${element.id}/likes`, {
+      method: 'DELETE',
+      headers: {
+        authorization: this._token,
+        'Content-Type': this._contentType
+      }
+    })
+
+      .then(res => {
+        if (res.ok) {
+          return res.json();
+        }
+
+        return Promise.reject(`Ошибка: ${res.status}`);
+      })
+      .then((res) => {
+        element.querySelector('.element__like-counter').textContent = res.likes.length;
+      })
+
+      .catch((err) => {
+        console.log(err);
+      });
+  }
+
 }

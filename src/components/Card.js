@@ -52,7 +52,14 @@ export class Card {
   }
 
   _toggleLike() {
+    if (this._likeButton.classList.contains('element__like_active')) {
+      api.deleteLikeCard(this._element);
+    } else {
+      api.addLikeCard(this._element);
+    }
+
     this._likeButton.classList.toggle('element__like_active');
+
   }
 
   _deleteCard() {

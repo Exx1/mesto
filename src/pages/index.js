@@ -32,7 +32,7 @@ const popupFull = new PopupWithImage(popupFullSelector);
 popupFull.setEventListeners();
 const formAddCard = new PopupWithForm(popupAddCardSelector, addCard);
 formAddCard.setEventListeners();
-const popupEditProfile = new PopupWithForm (popupEditProfileselector, submitFormEditProfile);
+const popupEditProfile = new PopupWithForm(popupEditProfileselector, submitFormEditProfile);
 popupEditProfile.setEventListeners();
 const formEditProfile = new UserInfo(nameProfile, statusProfile);
 export const popupDeleteCard = new Popup(popupDeleteCardSelector);
@@ -73,18 +73,8 @@ api.getUserInfo();
 
 
 function addCard(data) {
-  data.name = data.title;
-  data.likes = [];
-  const cardList = new Section({items: data, renderer: (item) => {
-    const card = newCard(item, elementsTamplate, handleCardClick);
-    const cardElement = card.generateCard();
 
-    cardList.addItemPrepend(cardElement);
-  }
-}, elements);
-
-api.setNewCard(data);
-cardList.renderer();
+  api.setNewCard(data);
 
   formAddCard.close();
 
