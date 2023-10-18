@@ -1,3 +1,6 @@
+import { popupDeleteCard } from "../pages/index.js";
+import { api } from "../pages/index.js";
+
 export class Card {
   constructor(data, template, handleCardClick) {
     this._name = data.name;
@@ -5,6 +8,7 @@ export class Card {
     this._likes = data.likes;
     this.template = template;
     this._handleCardClick = handleCardClick;
+    this._deleteCard = this._deleteCard.bind(this);
   }
 
   _getTamplate() {
@@ -38,7 +42,8 @@ export class Card {
     })
 
     this._element.querySelector('.element__trash').addEventListener('click', () => {
-      this._deleteCard();
+      popupDeleteCard.open();
+      document.querySelector('.popup__button-delete').addEventListener('click', this._deleteCard);
     })
 
     this._cardImage.addEventListener('click', () => {
@@ -51,6 +56,9 @@ export class Card {
   }
 
   _deleteCard() {
+    document.querySelector('.popup__button-delete').removeEventListener('click', this._deleteCard)
+    popupDeleteCard.close();
+    api.deleteCard(this._element.id);
     this._element.remove();
     this._element = null;
   }

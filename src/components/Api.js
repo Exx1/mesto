@@ -57,7 +57,10 @@ export default class Api {
         const cardList = new Section({items: res, renderer: (item) => {
             const card = newCard(item, elementsTamplate, handleCardClick);
             const cardElement = card.generateCard();
-
+            if (item.owner._id !== "8e020bb07b9fb09a45ecdc6f") {
+              cardElement.querySelector('.element__trash').style.display = "none";
+            }
+            cardElement.id = item._id;
             cardList.addItem(cardElement);
           }
         }, elements);
@@ -118,6 +121,25 @@ export default class Api {
       });
   }
 
-  // другие методы работы с API
-}
+  deleteCard(id) {
+    return fetch(`${this._baseUrl}cards/${id}`, {
+      method: 'DELETE',
+      headers: {
+        authorization: this._token,
+        'Content-Type': this._contentType
+      }
+  })
 
+  .then(res => {
+    if (res.ok) {
+      return res.json();
+    }
+
+    return Promise.reject(`Ошибка: ${res.status}`);
+  })
+
+  .catch((err) => {
+    console.log(err);
+  });
+}
+}

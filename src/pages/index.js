@@ -1,5 +1,6 @@
 import Section from "../components/Section.js";
 import { Card } from "../components/Card.js";
+import Popup from "../components/Popup.js";
 import { FormValidator } from "../components/FormValidator.js";
 import PopupWithImage from "../components/PopupWithImage.js";
 import PopupWithForm from "../components/PopupWithForm.js";
@@ -24,7 +25,7 @@ const formEditProfileSelector = document.querySelector(".popup__form_edit-profil
 const buttonAddCard = document.querySelector('.profile__button-add-card');
 const formAddCardSelector = document.querySelector(".popup__form_add-card");
 const popupFullSelector = '.popup-image';
-const popupDeleteCardSelector = document.querySelector('.popup-delete-card');
+const popupDeleteCardSelector = '.popup-delete-card';
 
 
 const popupFull = new PopupWithImage(popupFullSelector);
@@ -34,7 +35,8 @@ formAddCard.setEventListeners();
 const popupEditProfile = new PopupWithForm (popupEditProfileselector, submitFormEditProfile);
 popupEditProfile.setEventListeners();
 const formEditProfile = new UserInfo(nameProfile, statusProfile);
-const popupDeleteCard = new Popup(popupDeleteCardSelector);
+export const popupDeleteCard = new Popup(popupDeleteCardSelector);
+popupDeleteCard.setEventListeners();
 
 
 function submitFormEditProfile(data) {
@@ -57,7 +59,7 @@ export function newCard(item, elementsTamplate, handleCardClick) {
 }
 
 
-const api = new Api({
+export const api = new Api({
   baseUrl: 'https://mesto.nomoreparties.co/v1/cohort-77/',
   headers: {
     authorization: '4f7a38de-897b-4509-9e7c-9545688bcefc',
