@@ -1,4 +1,3 @@
-import Section from "../components/Section.js";
 import { Card } from "../components/Card.js";
 import Popup from "../components/Popup.js";
 import { FormValidator } from "../components/FormValidator.js";
@@ -8,12 +7,10 @@ import UserInfo from "../components/UserInfo.js";
 import '../pages/index.css';
 import { validationConfig } from "../utils/Constants.js";
 import Api from "../components/Api.js";
-import { elements } from "../components/Api.js";
-import { elementsTamplate } from "../components/Api.js";
 
 
 const buttonEditProfile = document.querySelector(".profile__edit-button");
-const popupEditProfileselector = ".popup-edit-profile";
+export const popupEditProfileselector = ".popup-edit-profile";
 const popupAddCardSelector = ".popup-add-card";
 const nameProfile = ".profile__text";
 const statusProfile = ".profile__status";
@@ -26,23 +23,47 @@ const buttonAddCard = document.querySelector('.profile__button-add-card');
 const formAddCardSelector = document.querySelector(".popup__form_add-card");
 const popupFullSelector = '.popup-image';
 const popupDeleteCardSelector = '.popup-delete-card';
+const formEditAvatarSelector = document.querySelector(".popup__form_edit-avatar");
+const buttonEditAvatar = document.querySelector('.profile__avatar-box');
+export const popupEditAvatarSelector = '.popup-edit-avatar';
 
 
 const popupFull = new PopupWithImage(popupFullSelector);
 popupFull.setEventListeners();
 const formAddCard = new PopupWithForm(popupAddCardSelector, addCard);
 formAddCard.setEventListeners();
-const popupEditProfile = new PopupWithForm(popupEditProfileselector, submitFormEditProfile);
+export const popupEditProfile = new PopupWithForm(popupEditProfileselector, submitFormEditProfile);
 popupEditProfile.setEventListeners();
 const formEditProfile = new UserInfo(nameProfile, statusProfile);
 export const popupDeleteCard = new Popup(popupDeleteCardSelector);
 popupDeleteCard.setEventListeners();
+export const popupEditAvatar = new PopupWithForm(popupEditAvatarSelector, submitFormEditAvatar);
+popupEditAvatar.setEventListeners();
+
+export function changeTextButtonWaiting(selectorPopup) {
+  const popup = document.querySelector(selectorPopup);
+  popup.querySelector('.popup__button').textContent = 'Сохранить...';
+}
+
+function changeTextButton(selectorPopup) {
+  const popup = document.querySelector(selectorPopup);
+  popup.querySelector('.popup__button').textContent = 'Сохранить';
+}
+
+buttonEditAvatar.addEventListener('click', function() {
+  changeTextButton(popupEditAvatarSelector);
+  popupEditAvatar.open();
+})
+
+function submitFormEditAvatar(data) {
+  editAvatarFormValidator.resetValidation();
+  api.setAvatar(data.link);
+}
 
 
 function submitFormEditProfile(data) {
   formEditProfile.setUserInfo(data);
   api.setUserInfo(inputsFormEditProfile.userName.value, inputsFormEditProfile.userStatus.value);
-  popupEditProfile.close();
 }
 
 
@@ -50,6 +71,7 @@ buttonEditProfile.addEventListener('click', function () {
   const userInfo = formEditProfile.getUserInfo();
   inputsFormEditProfile.userName.value = userInfo.userName;
   inputsFormEditProfile.userStatus.value = userInfo.userStatus;
+  changeTextButton(popupEditProfileselector);
   popupEditProfile.open();
 });
 
@@ -96,6 +118,9 @@ cardFormValidator.enableValidation();
 
 const profileFormValidator = new FormValidator(validationConfig, formEditProfileSelector);
 profileFormValidator.enableValidation();
+
+const editAvatarFormValidator = new FormValidator(validationConfig, formEditAvatarSelector);
+editAvatarFormValidator.enableValidation();
 
 
 

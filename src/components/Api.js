@@ -1,6 +1,11 @@
 import Section from "./Section.js";
 import { newCard } from "../pages/index.js";
 import { handleCardClick } from "../pages/index.js";
+import { changeTextButtonWaiting } from "../pages/index.js";
+import { popupEditAvatarSelector } from "../pages/index.js";
+import { popupEditAvatar } from "../pages/index.js";
+import { popupEditProfileselector } from "../pages/index.js";
+import { popupEditProfile } from "../pages/index.js";
 
 export const elements = '.elements';
 export const elementsTamplate = '#elements_template';
@@ -13,10 +18,11 @@ export default class Api {
     this._contentType = options.headers['Content-Type'];
     this._userName = document.querySelector('.profile__text');
     this._userStatus = document.querySelector('.profile__status');
+    this._userAvatar = document.querySelector('.profile__avatar');
   }
 
   getUserInfo() {
-    const userAvatar = document.querySelector('.profile__avatar');
+
     return fetch(`${this._baseUrl}users/me`, {
       headers: {
         authorization: this._token
@@ -32,7 +38,7 @@ export default class Api {
       .then((res) => {
         this._userName.textContent = res.name;
         this._userStatus.textContent = res.about;
-        userAvatar.link = res.avatar;
+        this._userAvatar.src = res.avatar;
       })
 
       .catch((err) => {
@@ -97,6 +103,11 @@ export default class Api {
         if (!res.ok) {
           return Promise.reject(`Ошибка: ${res.status}`);
         }
+      })
+
+      .then ((res) => {
+        changeTextButtonWaiting(popupEditProfileselector);
+        popupEditProfile.close();
       })
 
       .catch((err) => {
@@ -208,6 +219,36 @@ export default class Api {
       })
       .then((res) => {
         element.querySelector('.element__like-counter').textContent = res.likes.length;
+      })
+
+      .catch((err) => {
+        console.log(err);
+      });
+  }
+
+  setAvatar(link) {
+    return fetch(`${this._baseUrl}/users/me/avatar`, {
+      method: 'PATCH',
+      headers: {
+        authorization: this._token,
+        'Content-Type': this._contentType
+      },
+      body: JSON.stringify({
+        avatar: link
+      })
+    })
+
+      .then(res => {
+        if (res.ok) {
+          return res.json();
+        }
+
+        return Promise.reject(`Ошибка: ${res.status}`);
+      })
+      .then((res) => {
+        changeTextButtonWaiting(popupEditAvatarSelector);
+        this._userAvatar.src = res.avatar;
+        popupEditAvatar.close();
       })
 
       .catch((err) => {
