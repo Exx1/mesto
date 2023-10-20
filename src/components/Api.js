@@ -1,43 +1,17 @@
-import Section from "./Section.js";
-import { newCard } from "../pages/index.js";
-import { handleCardClick } from "../pages/index.js";
-import { changeTextButtonWaiting } from "../pages/index.js";
-import { popupEditAvatarSelector } from "../pages/index.js";
-import { popupEditAvatar } from "../pages/index.js";
-import { popupEditProfileselector } from "../pages/index.js";
-import { popupEditProfile } from "../pages/index.js";
-
-export const elements = '.elements';
-export const elementsTamplate = '#elements_template';
-
-
 export default class Api {
   constructor(options) {
     this._baseUrl = options.baseUrl;
     this._token = options.headers.authorization;
     this._contentType = options.headers['Content-Type'];
-    this._userName = document.querySelector('.profile__text');
-    this._userStatus = document.querySelector('.profile__status');
-    this._userAvatar = document.querySelector('.profile__avatar');
   }
 
   getUserInfo() {
-
     return fetch(`${this._baseUrl}users/me`, {
       headers: {
         authorization: this._token
       }
     })
       .then((res) => this._checkStatus(res))
-      .then((res) => {
-        this._userName.textContent = res.name;
-        this._userStatus.textContent = res.about;
-        this._userAvatar.src = res.avatar;
-      })
-
-      .catch((err) => {
-        console.log(err);
-      });
   }
 
   getInitialCards() {
@@ -47,7 +21,6 @@ export default class Api {
       }
     })
       .then((res) => this._checkStatus(res))
-
   }
 
   setUserInfo(name, status) {
@@ -111,7 +84,6 @@ export default class Api {
         'Content-Type': this._contentType
       }
     })
-
       .then((res) => this._checkStatus(res))
   }
 
