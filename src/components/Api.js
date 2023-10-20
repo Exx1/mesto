@@ -28,13 +28,7 @@ export default class Api {
         authorization: this._token
       }
     })
-      .then(res => {
-        if (res.ok) {
-          return res.json();
-        }
-
-        return Promise.reject(`Ошибка: ${res.status}`);
-      })
+      .then((res) => this._checkStatus(res))
       .then((res) => {
         this._userName.textContent = res.name;
         this._userStatus.textContent = res.about;
@@ -52,39 +46,8 @@ export default class Api {
         authorization: this._token
       }
     })
-      .then(res => {
-        if (res.ok) {
-          return res.json();
-        }
+      .then((res) => this._checkStatus(res))
 
-        return Promise.reject(`Ошибкаа: ${res.status}`);
-      })
-      .then((res) => {
-        const cardList = new Section({
-          items: res, renderer: (item) => {
-            const card = newCard(item, elementsTamplate, handleCardClick);
-            const cardElement = card.generateCard();
-            if (item.owner._id !== "8e020bb07b9fb09a45ecdc6f") {
-              cardElement.querySelector('.element__trash').style.display = "none";
-            }
-            if(item.likes.length > 0) {
-              item.likes.forEach(item => {
-                if (item._id === "8e020bb07b9fb09a45ecdc6f") {
-                  cardElement.querySelector('.element__like').classList.add('element__like_active');
-                }
-              });
-            }
-            cardElement.id = item._id;
-            cardList.addItem(cardElement);
-          }
-        }, elements);
-
-        cardList.renderer();
-      })
-
-      .catch((err) => {
-        console.log(err);
-      });
   }
 
   setUserInfo(name, status) {
@@ -99,20 +62,7 @@ export default class Api {
         about: status
       })
     })
-      .then(res => {
-        if (!res.ok) {
-          return Promise.reject(`Ошибка: ${res.status}`);
-        }
-      })
-
-      .then ((res) => {
-        changeTextButtonWaiting(popupEditProfileselector);
-        popupEditProfile.close();
-      })
-
-      .catch((err) => {
-        console.log(err);
-      });
+      .then((res) => this._checkStatus(res))
   }
 
   setNewCard(data) {
@@ -127,31 +77,7 @@ export default class Api {
         link: data.link
       })
     })
-      .then(res => {
-        if (res.ok) {
-          return res.json();
-        }
-
-        return Promise.reject(`Ошибка: ${res.status}`);
-      })
-
-      .then ((res) => {
-        const cardList = new Section({
-          items: res, renderer: (item) => {
-            const card = newCard(item, elementsTamplate, handleCardClick);
-            const cardElement = card.generateCard();
-
-            cardElement.id = item._id;
-            cardList.addItemPrepend(cardElement);
-          }
-        }, elements);
-
-        cardList.renderer();
-      })
-
-      .catch((err) => {
-        console.log(err);
-      });
+      .then((res) => this._checkStatus(res))
   }
 
   deleteCard(id) {
@@ -162,18 +88,7 @@ export default class Api {
         'Content-Type': this._contentType
       }
     })
-
-      .then(res => {
-        if (res.ok) {
-          return res.json();
-        }
-
-        return Promise.reject(`Ошибка: ${res.status}`);
-      })
-
-      .catch((err) => {
-        console.log(err);
-      });
+      .then((res) => this._checkStatus(res))
   }
 
   addLikeCard(element) {
@@ -184,21 +99,8 @@ export default class Api {
         'Content-Type': this._contentType
       }
     })
+      .then((res) => this._checkStatus(res))
 
-      .then(res => {
-        if (res.ok) {
-          return res.json();
-        }
-
-        return Promise.reject(`Ошибка: ${res.status}`);
-      })
-      .then((res) => {
-        element.querySelector('.element__like-counter').textContent = res.likes.length;
-      })
-
-      .catch((err) => {
-        console.log(err);
-      });
   }
 
   deleteLikeCard(element) {
@@ -210,20 +112,7 @@ export default class Api {
       }
     })
 
-      .then(res => {
-        if (res.ok) {
-          return res.json();
-        }
-
-        return Promise.reject(`Ошибка: ${res.status}`);
-      })
-      .then((res) => {
-        element.querySelector('.element__like-counter').textContent = res.likes.length;
-      })
-
-      .catch((err) => {
-        console.log(err);
-      });
+      .then((res) => this._checkStatus(res))
   }
 
   setAvatar(link) {
@@ -237,23 +126,14 @@ export default class Api {
         avatar: link
       })
     })
-
-      .then(res => {
-        if (res.ok) {
-          return res.json();
-        }
-
-        return Promise.reject(`Ошибка: ${res.status}`);
-      })
-      .then((res) => {
-        changeTextButtonWaiting(popupEditAvatarSelector);
-        this._userAvatar.src = res.avatar;
-        popupEditAvatar.close();
-      })
-
-      .catch((err) => {
-        console.log(err);
-      });
+      .then((res) => this._checkStatus(res))
   }
 
+  _checkStatus(res) {
+    if (res.ok) {
+      return res.json();
+    }
+
+    return Promise.reject(`Ошибка: ${res.status}`)
+  }
 }

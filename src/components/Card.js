@@ -53,9 +53,22 @@ export class Card {
 
   _toggleLike() {
     if (this._likeButton.classList.contains('element__like_active')) {
-      api.deleteLikeCard(this._element);
+      api.deleteLikeCard(this._element)
+      .then((res) => {
+        this._element.querySelector('.element__like-counter').textContent = res.likes.length;
+      })
+      .catch((err) => {
+        console.log(err);
+      });
     } else {
-      api.addLikeCard(this._element);
+      api.addLikeCard(this._element)
+      .then((res) => {
+        this._element.querySelector('.element__like-counter').textContent = res.likes.length;
+      })
+
+      .catch((err) => {
+        console.log(err);
+      });
     }
 
     this._likeButton.classList.toggle('element__like_active');
@@ -65,7 +78,11 @@ export class Card {
   _deleteCard() {
     document.querySelector('.popup__button-delete').removeEventListener('click', this._deleteCard)
     popupDeleteCard.close();
-    api.deleteCard(this._element.id);
+    api.deleteCard(this._element.id)
+
+    .catch((err) => {
+      console.log(err);
+    });
     this._element.remove();
     this._element = null;
   }
