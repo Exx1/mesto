@@ -18,6 +18,7 @@ const user = {
   status: ".profile__status",
   avatar: '.profile__avatar'
 }
+const userAvatar = document.querySelector(user.avatar);
 const inputsFormEditProfile = {
   userName: document.querySelector(".popup__input_type_name"),
   userStatus: document.querySelector(".popup__input_type_status")
@@ -27,6 +28,7 @@ const buttonAddCard = document.querySelector('.profile__button-add-card');
 const formAddCardSelector = document.querySelector(".popup__form_add-card");
 const popupFullSelector = '.popup-image';
 const popupDeleteCardSelector = '.popup-delete-card';
+const deleteCardPopup = document.querySelector(popupDeleteCardSelector);
 const formEditAvatarSelector = document.querySelector(".popup__form_edit-avatar");
 const buttonEditAvatar = document.querySelector('.profile__avatar-box');
 const popupEditAvatarSelector = '.popup-edit-avatar';
@@ -47,7 +49,21 @@ const popupDeleteCard = new Popup(popupDeleteCardSelector);
 popupDeleteCard.setEventListeners();
 const popupEditAvatar = new PopupWithForm(popupEditAvatarSelector, submitFormEditAvatar);
 popupEditAvatar.setEventListeners();
-const cardList = new Section({}, elements);
+const cardList = new Section({
+  renderer: (item) => {
+    const card = createCard(item, elementsTamplate, {
+      open: openCardClick,
+      popupDeleteCard: popupDeleteCard,
+      deleteCard: deleteCard,
+      addLike: addLike,
+      deleteLike: deleteLike,
+      getUserId: user.id,
+      popup: deleteCardPopup
+    });
+    const cardElement = card.generateCard();
+    cardList.addItem(cardElement);
+  }
+}, elements);
 
 buttonEditAvatar.addEventListener('click', function () {
   popupEditAvatar.open();
@@ -57,29 +73,32 @@ function submitFormEditAvatar(data) {
   renderLoading(submitButtonEditAvatar);
   api.setAvatar(data.link)
     .then((res) => {
-      document.querySelector(user.avatar).src = res.avatar;
+      userAvatar.src = res.avatar;
       popupEditAvatar.close();
-      renderLoading(submitButtonEditAvatar);
+
       editAvatarFormValidator.resetValidation();
     })
 
     .catch((err) => {
       console.log(err);
-    });
+    })
+
+    .finally(renderLoading(submitButtonEditAvatar))
 }
 
 function submitFormEditProfile(data) {
   renderLoading(submitButtonEditProfile);
-  formEditProfile.setUserInfo(data);
-  api.setUserInfo(inputsFormEditProfile.userName.value, inputsFormEditProfile.userStatus.value)
+  api.setUserInfo(data.name, data.about)
     .then(() => {
+      formEditProfile.setUserInfo(data);
       popupEditProfile.close();
-      renderLoading(submitButtonEditProfile);
+
     })
 
     .catch((err) => {
       console.log(err);
-    });
+    })
+    .finally(renderLoading(submitButtonEditProfile))
 }
 
 buttonEditProfile.addEventListener('click', function () {
@@ -104,9 +123,8 @@ const api = new Api({
 
 api.getUserInfo()
   .then((res) => {
-    document.querySelector(user.name).textContent = res.name;
-    document.querySelector(user.status).textContent = res.about;
-    document.querySelector(user.avatar).src = res.avatar;
+    formEditProfile.setUserInfo(res);
+    userAvatar.src = res.avatar;
     user.id = res._id;
   })
 
@@ -114,39 +132,23 @@ api.getUserInfo()
     console.log(err);
   });
 
-api.getInitialCards()
-  .then((res) => {
 
-    const cardList = new Section({
-      items: res, renderer: (item) => {
-        const card = createCard(item, elementsTamplate, {
-          open: openCardClick,
-          openPopupDeleteCard: openPopupDeleteCard,
-          deleteCard: deleteCard,
-          addLike: addLike,
-          deleteLike: deleteLike
-        });
-        const cardElement = card.generateCard();
-        card.hideTrashIcon(item.owner._id, user.id);
+function getInitialCards() {
+  api.getUserInfo()
+    .then((res) => {
+      user.id = res._id;
+    })
+    .then(api.getInitialCards()
+      .then((res) => {
+        cardList.renderItems(res);
+      })
 
-        if (item.likes.length > 0) {
-          item.likes.forEach(item => {
-            if (item._id === user.id) {
-              cardElement.querySelector('.element__like').classList.add('element__like_active');
-            }
-          });
-        }
-        cardElement.id = item._id;
-        cardList.addItem(cardElement);
-      }
-    }, elements);
+      .catch((err) => {
+        console.log(err);
+      }))
+}
 
-    cardList.renderItems();
-  })
-
-  .catch((err) => {
-    console.log(err);
-  });
+getInitialCards()
 
 function addCard(data) {
   renderLoading(submitButtonAddCard);
@@ -154,29 +156,27 @@ function addCard(data) {
     .then((res) => {
       const card = createCard(res, elementsTamplate, {
         open: openCardClick,
-        openPopupDeleteCard: openPopupDeleteCard,
+        popupDeleteCard: popupDeleteCard,
         deleteCard: deleteCard,
         addLike: addLike,
-        deleteLike: deleteLike
+        deleteLike: deleteLike,
+        getUserId: user.id,
+        popup: deleteCardPopup
       }
       );
       const cardElement = card.generateCard();
-      card.hideTrashIcon(res.owner._id, user.id);
-
-      cardElement.id = res._id;
 
       cardList.addItemPrepend(cardElement);
-      renderLoading(submitButtonAddCard);
+      formAddCard.close();
+      cardFormValidator.resetValidation();
     }
     )
 
     .catch((err) => {
       console.log(err);
-    });
+    })
 
-  formAddCard.close();
-
-  cardFormValidator.resetValidation();
+    .finally(renderLoading(submitButtonAddCard))
 }
 
 buttonAddCard.addEventListener('click', function () {
@@ -187,18 +187,12 @@ function openCardClick(name, link) {
   popupFull.open(name, link)
 }
 
-function openPopupDeleteCard(func) {
-  popupDeleteCard.open();
-  document.querySelector(popupDeleteCardSelector).querySelector('.popup__button-delete').addEventListener('click', func);
-}
-
-function deleteCard(id, func) {
+function deleteCard(id) {
   api.deleteCard(id)
+    .then(popupDeleteCard.close())
     .catch((err) => {
       console.log(err);
     });
-  popupDeleteCard.close();
-  document.querySelector(popupDeleteCardSelector).querySelector('.popup__button-delete').removeEventListener('click', func);
 }
 
 function addLike(element) {

@@ -1,14 +1,19 @@
 export class Card {
-  constructor(data, template, { open, openPopupDeleteCard, deleteCard, addLike, deleteLike }) {
+  constructor(data, template, { open, popupDeleteCard, deleteCard, addLike, deleteLike, getUserId, popup }) {
     this._name = data.name;
     this._link = data.link;
     this._likes = data.likes;
     this.template = template;
     this._open = open;
-    this._openPopupDeleteCard = openPopupDeleteCard;
-    this._delteCardAccept = deleteCard;
+    this._popupDeleteCard = popupDeleteCard;
     this._addLike = addLike;
     this._deleteLike = deleteLike;
+    this._getUserId = getUserId;
+    this._deleteCardAccept = deleteCard;
+    this._cardId = data._id;
+    this._ownerId = data.owner._id;
+    this.likes = data.likes;
+    this._popup = popup;
     this._deleteCard = this._deleteCard.bind(this);
   }
 
@@ -28,19 +33,34 @@ export class Card {
     this._likeButton = this._element.querySelector('.element__like');
     this._likeCounter = this._element.querySelector('.element__like-counter');
     this._setEventListeners();
-
     this._cardImage.src = this._link;
     this._cardImage.alt = this._name;
     this._element.querySelector('.element__name').textContent = this._name;
     this._likeCounter.textContent = this._likes.length;
+    this._element.id = this._cardId;
+    this._likeActive(this._getUserId);
+    this._hideTrashIcon(this._getUserId);
 
     return this._element;
   }
 
-  hideTrashIcon(owner, user) {
-    if (owner !== user) {
-      this._element.querySelector('.element__trash').style.display = "none";
+  _likeActive(id) {
+
+    if (this.likes.length > 0) {
+      this.likes.forEach(item => {
+        if (item._id === id) {
+          this._element.querySelector('.element__like').classList.add('element__like_active');
+        }
+      });
     }
+  }
+
+  _hideTrashIcon(id) {
+
+      if (this._ownerId !== id) {
+        this._element.querySelector('.element__trash').style.display = "none";
+      }
+
   }
 
   _setEventListeners() {
@@ -48,9 +68,7 @@ export class Card {
       this._toggleLike();
     })
 
-    this._element.querySelector('.element__trash').addEventListener('click', () => {
-      this._openPopupDeleteCard(this._deleteCard);
-    })
+    this._element.querySelector('.element__trash').addEventListener('click', this._deleteCard);
 
     this._cardImage.addEventListener('click', () => {
       this._open(this._name, this._link);
@@ -67,9 +85,13 @@ export class Card {
   }
 
   _deleteCard() {
-    this._delteCardAccept(this._element.id, this._deleteCard);
+    this._popupDeleteCard.open();
+    this._popup.querySelector('.popup__button-delete').addEventListener('click', () => {
+    this._deleteCardAccept(this._element.id);
+    console.log(this._element);
     this._element.remove();
     this._element = null;
+    });
   }
 }
 
