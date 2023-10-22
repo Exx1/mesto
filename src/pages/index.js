@@ -133,19 +133,17 @@ api.getUserInfo()
   });
 
 
-function getInitialCards() {
-  api.getUserInfo()
+const getInitialCards = async () => {
+  await api.getUserInfo()
+  api.getInitialCards()
     .then((res) => {
-      user.id = res._id;
+      console.log(user.id)
+      cardList.renderItems(res);
     })
-    .then(api.getInitialCards()
-      .then((res) => {
-        cardList.renderItems(res);
-      })
 
-      .catch((err) => {
-        console.log(err);
-      }))
+    .catch((err) => {
+      console.log(err);
+    })
 }
 
 getInitialCards()
