@@ -173,16 +173,13 @@ function openCardClick(name, link) {
   popupFull.open(name, link)
 }
 
-function deleteCardAccept() {
+function deleteCardAccept(func) {
   popupDeleteCard.open();
   popupDeleteCard.setAction((evt) => {
     evt.preventDefault();
-    api.deleteCard(this._cardId)
-    .then(() => {
-      this._deleteCard()
-      popupDeleteCard.close()
+      func();
+      popupDeleteCard.close();
     })
-  })
 }
 
 function addLike(element) {

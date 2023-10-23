@@ -69,7 +69,7 @@ export class Card {
     })
 
     this._element.querySelector('.element__trash').addEventListener('click', () => {
-      this._deleteCardAccept();
+      this._deleteCardAccept(this._deleteCard);
     });
 
     this._cardImage.addEventListener('click', () => {
