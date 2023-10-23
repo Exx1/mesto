@@ -18,11 +18,11 @@ const user = {
   status: ".profile__status",
   avatar: '.profile__avatar'
 }
-const userAvatar = document.querySelector(user.avatar);
 const inputsFormEditProfile = {
   userName: document.querySelector(".popup__input_type_name"),
   userStatus: document.querySelector(".popup__input_type_status")
 }
+const userAvatar = document.querySelector(user.avatar);
 const formEditProfileSelector = document.querySelector(".popup__form_edit-profile");
 const buttonAddCard = document.querySelector('.profile__button-add-card');
 const formAddCardSelector = document.querySelector(".popup__form_add-card");
@@ -54,7 +54,7 @@ const cardList = new Section({
     const card = createCard(item, elementsTamplate, {
       open: openCardClick,
       popupDeleteCard: popupDeleteCard,
-      deleteCard: deleteCard,
+      deleteCard: deleteCardAccept,
       addLike: addLike,
       deleteLike: deleteLike,
       getUserId: user.id,
@@ -126,27 +126,15 @@ api.getUserInfo()
     formEditProfile.setUserInfo(res);
     userAvatar.src = res.avatar;
     user.id = res._id;
+    api.getInitialCards()
+      .then((res) => {
+        cardList.renderItems(res);
+      })
   })
 
   .catch((err) => {
     console.log(err);
   });
-
-
-const getInitialCards = async () => {
-  await api.getUserInfo()
-  api.getInitialCards()
-    .then((res) => {
-      console.log(user.id)
-      cardList.renderItems(res);
-    })
-
-    .catch((err) => {
-      console.log(err);
-    })
-}
-
-getInitialCards()
 
 function addCard(data) {
   renderLoading(submitButtonAddCard);
@@ -155,7 +143,7 @@ function addCard(data) {
       const card = createCard(res, elementsTamplate, {
         open: openCardClick,
         popupDeleteCard: popupDeleteCard,
-        deleteCard: deleteCard,
+        deleteCard: deleteCardAccept,
         addLike: addLike,
         deleteLike: deleteLike,
         getUserId: user.id,
@@ -185,12 +173,16 @@ function openCardClick(name, link) {
   popupFull.open(name, link)
 }
 
-function deleteCard(id) {
-  api.deleteCard(id)
-    .then(popupDeleteCard.close())
-    .catch((err) => {
-      console.log(err);
-    });
+function deleteCardAccept() {
+  popupDeleteCard.open();
+  popupDeleteCard.setAction((evt) => {
+    evt.preventDefault();
+    api.deleteCard(this._cardId)
+    .then(() => {
+      this._deleteCard()
+      popupDeleteCard.close()
+    })
+  })
 }
 
 function addLike(element) {
@@ -222,8 +214,3 @@ profileFormValidator.enableValidation();
 
 const editAvatarFormValidator = new FormValidator(validationConfig, formEditAvatarSelector);
 editAvatarFormValidator.enableValidation();
-
-
-
-
-

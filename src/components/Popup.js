@@ -34,4 +34,8 @@ export default class Popup {
   _removeEventListeners() {
     document.removeEventListener('keydown', this.handleEscClose);
   }
+
+  setAction(func) {
+    this._popup.querySelector(".popup__form").addEventListener('submit', func);
+  }
 }

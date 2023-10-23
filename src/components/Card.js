@@ -68,7 +68,9 @@ export class Card {
       this._toggleLike();
     })
 
-    this._element.querySelector('.element__trash').addEventListener('click', this._deleteCard);
+    this._element.querySelector('.element__trash').addEventListener('click', () => {
+      this._deleteCardAccept();
+    });
 
     this._cardImage.addEventListener('click', () => {
       this._open(this._name, this._link);
@@ -85,13 +87,8 @@ export class Card {
   }
 
   _deleteCard() {
-    this._popupDeleteCard.open();
-    this._popup.querySelector('.popup__button-delete').addEventListener('click', () => {
-    this._deleteCardAccept(this._element.id);
-    console.log(this._element);
     this._element.remove();
     this._element = null;
-    });
   }
 }
 
